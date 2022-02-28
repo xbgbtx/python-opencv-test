@@ -4,6 +4,7 @@ from contextlib import contextmanager
 import cv2
 import time
 import numpy as np
+import random
 
 
 @contextmanager
@@ -33,7 +34,10 @@ def list_ports():
 
 
 def process_frame(frame):
-    return cv2.Canny(frame, 100, 200)
+
+    frame[:, :] = [17, 17, 17]
+
+    return frame
 
 
 def process_loop(vid):
