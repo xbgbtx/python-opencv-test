@@ -12,18 +12,22 @@ def VideoCapture(*args, **kwargs):
     finally:
         cap.release()
 
+
+def read_vid_loop(vid):
+    while (True):
+        ret, frame = vid.read()
+
+        cv2.imshow('frame', frame)
+
+        if cv2.waitKey(100) & 0xFF == ord('q'):
+            break
+
+
 def main():
     print("Open CV test")
 
     with VideoCapture(0) as vid:
-        while(True):
-            ret, frame = vid.read()
-
-            cv2.imshow('frame', frame)
-
-            if cv2.waitKey(100) & 0xFF == ord('q'):
-                break
-
+        read_vid_loop(vid)
 
 
 if __name__ == "__main__":
