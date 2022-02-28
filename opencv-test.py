@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
+
 def main():
-        print("RTfaCt Server") 
+    print("Open CV test")
 
-        if __name__ == "__main__":
-                main()
 
+if __name__ == "__main__":
+    main()
