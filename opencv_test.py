@@ -35,20 +35,13 @@ def list_ports():
 
 
 def process_loop(vid, img_gen):
-    t0 = t1 = 0
+    title = "Open CV"
     while (True):
         ret, frame = vid.read()
 
         img_gen.add_frame(frame)
 
         frame = img_gen.get_frame()
-
-        t1 = time.time()
-        fps = 1 / (t1 - t0)
-        t0 = t1
-        print(fps)
-
-        title = "Open CV"
 
         cv2.imshow(title, frame)
 
