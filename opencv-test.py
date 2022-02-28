@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import cv2
 
 def main():
     print("Open CV test")
