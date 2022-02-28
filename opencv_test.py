@@ -5,6 +5,7 @@ import cv2
 import time
 import numpy as np
 import random
+from img_gen.img_gen_numpy import ImgGenNumpy as ImgGen
 
 
 @contextmanager
@@ -33,29 +34,23 @@ def list_ports():
                       (dev_port, w, h))
 
 
-def process_frame(frame):
-
-    frame[:, :] = [17, 17, 17]
-
-    return frame
-
-
-def process_loop(vid):
+def process_loop(vid, img_gen):
     t0 = t1 = 0
     while (True):
         ret, frame = vid.read()
 
-        frame = process_frame(frame)
+        img_gen.add_frame(frame)
+
+        frame = img_gen.get_frame()
 
         t1 = time.time()
         fps = 1 / (t1 - t0)
         t0 = t1
+        print(fps)
 
-        fps_str = str(int(fps))
-        cv2.putText(frame, fps_str, (7, 70), cv2.FONT_HERSHEY_SIMPLEX, 3,
-                    (100, 255, 0), 3, cv2.LINE_AA)
+        title = "Open CV"
 
-        cv2.imshow('OpenCV out', frame)
+        cv2.imshow(title, frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -67,7 +62,9 @@ def main():
     list_ports()
 
     with VideoCapture(0) as vid:
-        process_loop(vid)
+        vid_shape = (720, 1280, 3)
+        img_gen = ImgGen(vid_shape)
+        process_loop(vid, img_gen)
 
 
 if __name__ == "__main__":
