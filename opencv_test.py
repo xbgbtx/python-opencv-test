@@ -3,6 +3,7 @@
 from contextlib import contextmanager
 import cv2
 import time
+import numpy as np
 
 
 @contextmanager
@@ -31,10 +32,16 @@ def list_ports():
                       (dev_port, w, h))
 
 
-def read_vid_loop(vid):
+def process_frame(frame):
+    return cv2.Canny(frame, 100, 200)
+
+
+def process_loop(vid):
     t0 = t1 = 0
     while (True):
         ret, frame = vid.read()
+
+        frame = process_frame(frame)
 
         t1 = time.time()
         fps = 1 / (t1 - t0)
@@ -44,7 +51,7 @@ def read_vid_loop(vid):
         cv2.putText(frame, fps_str, (7, 70), cv2.FONT_HERSHEY_SIMPLEX, 3,
                     (100, 255, 0), 3, cv2.LINE_AA)
 
-        cv2.imshow('frame', frame)
+        cv2.imshow('OpenCV out', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -56,7 +63,7 @@ def main():
     list_ports()
 
     with VideoCapture(0) as vid:
-        read_vid_loop(vid)
+        process_loop(vid)
 
 
 if __name__ == "__main__":
