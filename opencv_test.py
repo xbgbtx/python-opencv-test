@@ -45,9 +45,6 @@ def process_loop(vid, img_gen):
 
         cv2.imshow(title, frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
 
 def main():
     print("Open CV test")
